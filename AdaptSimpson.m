@@ -1,0 +1,25 @@
+function I=AdaptSimpson(fun,a,b,delta)
+%funkcija AdaptSimpson raèuna približek za integral funkcije fun na
+%intervalu [a,b] po adaptivni metodi, opisani v nalogi
+%vhod:
+%fun ... funkcija, katere integral raèunamo
+%a ... levo krajišèe intervala, po katerem raèunamo integral
+%b ... desno krajišèe intervala, po katerem raèunamo integral
+%delta ... zahtevana natanènost
+%izhod:
+%I ... konèni približek za integral
+
+I1=simpson(fun,a,b); %izraèunamo prvi približek za inegral po simpsonovem pravilu
+I2=simpson(fun,a,(a+b)/2)+simpson(fun,(a+b)/2,b); %drugi približek: razpolovimo interval,
+%na vsakem podintervalu raèunamo približek po simpsonovem pravilu
+
+if abs(I1-I2)>delta %èe je razlika med približkoma I1 in I2 veèja od natanènosti delta
+   I=AdaptSimpson(fun,a,(a+b)/2,delta)+ AdaptSimpson(fun,(a+b)/2,b,delta); 
+   %razpolovimo intervala in na vsakem rekurzivno klièemo funkcijo
+   %AdaptSimpson
+else %èe je razlika med približkoma I1 in I2 manjša ali enaka delta
+    I=I2+(1/15)*(I2-I1); %na I1 in I2 izvedemo en korak Richardosnove ekstrapolacije
+    %[a,b];
+end
+
+end
