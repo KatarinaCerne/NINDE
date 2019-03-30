@@ -17,9 +17,9 @@ napaka = abs(I1-I2);
 
 if abs(I1-I2)>delta %èe je razlika med približkoma I1 in I2 veèja od natanènosti delta
    [int1,n1]=AdaptSimpson(fun,a,(a+b)/2,delta);
-   [int2,n2]=AdaptSimpson(fun,(a+b)/2,b,delta);
-   I=int1+int2;
-   napaka=max(n1,n2);
+   [int2,n2]=
+   I=AdaptSimpson(fun,a,(a+b)/2,delta)+AdaptSimpson(fun,(a+b)/2,b,delta);
+   napaka=max(AdaptSimpson(fun,a,(a+b)/2,delta),AdaptSimpson(fun,(a+b)/2,b,delta));
    %razpolovimo intervala in na vsakem rekurzivno klièemo funkcijo
    %AdaptSimpson
 else %èe je razlika med približkoma I1 in I2 manjša ali enaka delta

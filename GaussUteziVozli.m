@@ -9,7 +9,7 @@ function [alfa,xn] = GaussUteziVozli(n,ro,am,bm)
 %alfa ... seznam uteži
 %xn ... seznam vozlov
 alfa = zeros(1,n);
-[a_sez,b_sez,polQ] = ONbaza(n,ro,am,bm); %z Gram-Schmidtovim postopkom izraèunamo 
+[a_sez,b_sez,polQ] = ONbaza(n,ro,am,bm); %z algoritmom za raèunanje ON polinomov izraèunamo 
 %ortonormirano bazo prostora polinomov stopnje n, elementi so shranjeni v
 %celici polQ, izraèunamo še koeficiente (a_i)i=0...n , (b_i)i=0...n, v
 %trièlenski rekurzivni zvezi, shranjene v seznamih a_sez in b_sez

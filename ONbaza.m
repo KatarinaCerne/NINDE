@@ -12,7 +12,6 @@ function [a_sez,b_sez,polQ] = ONbaza(n,ro,am,bm)
 %a_sez = (a_i)_{i=1,...,n} ...seznam koeficientov a_i v trièlenski zvezi
 %b_sez = (b_i)_{i=1,...,n} ...seznam koeficientov b_i v trièlenski zvezi
 
-%koeficiente a_i, b_i in polinome Q_i raèunamo po gram-schmidtovem postopku
 a_sez = zeros(1,n); %a_i = a_sez(i)
 b_sez = zeros(1,n+1); %b_i = b_sez(i)
 polQ{1} = @(t) 0; % 1 --> -1 to je Q_{-1}
