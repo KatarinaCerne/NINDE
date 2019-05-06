@@ -10,7 +10,9 @@ function [a_sez,b_sez,polQ] = ONbaza(n,ro,am,bm)
 %polQ je seznam baznih polinomov od Q_{-1} do Q_n
 %Q_n = polQ{n+2} je stopnje n
 %a_sez = (a_i)_{i=1,...,n} ...seznam koeficientov a_i v trièlenski zvezi
-%b_sez = (b_i)_{i=1,...,n} ...seznam koeficientov b_i v trièlenski zvezi
+%(zamaknjeni indeksi)
+%b_sez = (b_i)_{i=1,...,n+1} ...seznam koeficientov b_i v trièlenski zvezi
+%(zamaknjeni indeksi)
 
 a_sez = zeros(1,n); %a_i = a_sez(i)
 b_sez = zeros(1,n+1); %b_i = b_sez(i)
@@ -25,8 +27,6 @@ for i=1:n
    b_sez(i+1) = sqrt(skalarniInt(Qkaca{i+2}, Qkaca{i+2}, ro, am, bm));
    polQ{i+2} = @(t) (1/b_sez(i+1)).*Qkaca{i+2}(t);
    
-%    b(i+1) = sqrt(skalarni(@(t) (t-a(i))*polQ{i+1}(t) - b(i)*polQ{i}(t), @(t) (t-a(i))*polQ{i+1}(t) - b(i)*polQ{i}(t), x));
-%    polQ{i+2} = @(t) (1/b(i+1))*(t-a(i))*polQ{i+1}(t) - b(i)*polQ{i}(t);
 end
 
 end

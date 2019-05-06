@@ -26,7 +26,7 @@ for i=1:n
 end
 
 for i=1:n
-   alfa(i)=integral(ro,am,bm)*Z(1,i)^2; %izraèunamo uteži alfa_{j,n}
+   alfa(i)=integral(ro,am,bm,'AbsTol',0,'RelTol',10^(-15))*Z(1,i)^2; %izraèunamo uteži alfa_{j,n}
 end
 
 end

@@ -1,0 +1,138 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{eurosym}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amsthm}
+
+\begin{document}
+\title{1. DOMAČA NALOGA}
+\author{Katarina Černe, 27172036}
+\maketitle
+
+\section*{1.\ naloga}
+
+Implementacija 1.\ naloge se nahaja v datotekah \texttt{AdaptSimpson.m} in \texttt{simpson.m}, rezultati pa se preverijo v datoteki \texttt{preverjanje1.m}
+
+V datoteki \texttt{simpson.m} implementiramo Simpsonovo pravilo na treh točkah $x_0$, $x_1$ in $x_2$:
+$$\int_{x_0}^{x_2}f(x) dx = \frac{h}{3}(f(x_0)+4f(x_1)+f(x_2)).$$
+V datoteki \texttt{AdaptSimpson.m} nato implementiramo rekurzivno adaptivno metodo, ki uporablja Simpsonovo pravilo in Richardsonovo ekstrapolacijo. Najprej na danem intervalu $[a,b]$ izračunamo integral \texttt{I1} s tritočkovnim Simpsonovim pravilom in integral \texttt{I2} s sestavljenim Simpsonovim pravilom na dveh intervalih, ki jih dobimo tako, da razpolovimo osnovni interval $[a,b]$ na dva podintervala $[a,\frac{a+b}{2}]$ in $[\frac{a+b}{2},b]$.
+Če se dobljena približka za integral \texttt{I1} in \texttt{I2} razlikujeta za več kot \texttt{delta}, kar je predpisana toleranca, interval razpolovimo na dva podintervala in na njih rekurzivno pokličemo metodo. Če se približka za integral razlikujeta za manj kot \texttt{delta}, izračunamo končni približek za integral \texttt{I} z Richardsonovo ekstrapolacijo:
+$$I=\frac{16I_2-I_1}{15}.$$
+Napako metode ocenimo kot maksimum napak na vseh podintervalih, na katerih smo računali integrala \texttt{I1} in \texttt{I2}, torej kot maksimum absolutnih razlik med \texttt{I1} in \texttt{I2} na vseh podintervalih.
+
+V datoteki \texttt{preverjanje.m} preizkusimo implementirane funkcije. Računamo približek za integral funkcije $f(x)=\frac{1}{\sqrt{x+10^{-6}}}$ na intervalu $[a,b]=[0,1]$ pri zahtevani toleranci $\delta = \frac{1}{1000}$.
+Pri danih podatkih dobimo približek za integral \texttt{I = 1.998138414752528} in oceno za napako \texttt{napaka = 4.242391134492481e-04}.
+
+\section*{2. naloga}
+
+Implementacija 2. naloge se nahaja v datotekah \texttt{ONBaza.m}, \texttt{skalarniInt.m}, 
+\texttt{GaussUteziVozli.m} 
+in \texttt{GaussIntegral.m}, rezultati pa se preverijo v datoteki \texttt{preverjanje2.m}
+
+V datoteki \texttt{skalarniInt.m} ustvarimo funkcijo, ki računa skalarni produkt 
+dveh funkcij z utežjo $\rho$:
+$$<f,g>=\int_a^b f(x)g(x)\rho(x)dx$$
+Pri tem za integracijo uporabimo vgrajeno funkcijo \texttt{integral} z absolutno 
+toleranco $0$ in relativno toleranco $10^{-15}$.
+
+V datoteki \texttt{ONBaza.m} implementiramo algoritem, ki prejme podatek o uteži $\rho$, 
+intervalu, na katerem računamo skalarni produkt in maksimalni stopnji polinomov $n$, in 
+izračuna in vrne ortonormirane polinome ${Q_i(x)}_{i=-1}^n$ in seznama koeficientov 
+$\{a_i\}_{i=0}^n$ in $\{b_i\}_{i=0}^{n+1}$, ki nastopajo v tričlenski rekurzivni zvezi
+$$b_iQ_{i-1}(x)+a_iQ_i(x)+b_{i+1}Q_{i+1}(x)=xQ_i(x).$$
+Algoritem je naslednji:\\
+Definiramo $Q_{-1}=0$.\\
+$b_0=||1||$, kjer za računanje norme uporabimo prej definirani skalarni produkt.\\
+$Q_0=\frac{1}{b_0}$\\
+Za i=0,...,n:\\
+$a_i=<xQ_i(x),xQ_i(x)>$, kjer za računanje uporabimo prej definirani skalarni produkt\\
+$\tilde{Q}_{i+1}(x)=(x-a_i)Q_i(x)-b_iQ_{i-1}(x)$\\
+$Q_{i+1}(x)=\frac{1}{b_{i+1}}\tilde{Q}_{i+1}(x)$\\
+
+V datoteki \texttt{GaussUteziVozli.m} implementiramo funkcijo, ki izračuna vozle in uteži 
+za Gaussovo integracijsko pravilo z $n+1$ vozli na danem intervalu $[am,bm]$ pri uteži 
+$\rho$. Funkcija najprej s pomočjo funkcije \texttt{ONBaza} izračuna koeficiente 
+\(\{a_i\}_{i=0}^n\) in $\{b_i\}_{i=0}^{n+1}$ in ortonormirane polinome ${Q_i(x)}_{i=-1}^n$. 
+Koeficiente nato s pomočjo vgrajene funkcije \texttt{spdiags} sestavi v tridiagonalno 
+matriko \texttt{A} (kot v navodilih domače naloge, pri čemer ne uporabi koeficientov $b_0$ in $b_{n+1}$).
+Nato z vgrajeno funkcijo \texttt{eig} izračuna lastne vrednosti in lastne vektorje matrike \texttt{A}.
+Lastne vrednosti so ravno vozli tega integracijskega pravila. 
+Lastne vektorje normiramo, nato pa izračunamo uteži $\alpha_{j,n}$ integracijskega pravila kot
+$$\alpha_{j,n}=z_{j,0}^2\int_{am}^{bm}\rho(x)dx,$$
+kjer so $z_j$ normirani lastni vektorji, torej je $z_{j,0}$ prva komponenta $j$-tega
+normiranega lastnega vektorja. Za računanje integrala uporabimo vgrajeno funkcijo 
+\texttt{integral} z absolutno toleranco $0$ in relativno toleranco $10^{-15}$
+
+V datoteki \texttt{GaussIntegral.m} implementiramo funkcijo, ki s pomočjo prej pripravljene 
+metode \texttt{GaussUteziVozli} izračuna približek za integral 
+$$\int_{am}^{bm}f(x)\rho(x)dx$$
+z Gaussovim integracijskim pravilom z utežjo $\rho$ na $n+1$ vozlih kot
+$$\int_{am}^{bm}f(x)\rho(x)dx=\sum_{i=0}^n \alpha_{i,n}f(x_{i,n}).$$
+
+V datoteki \texttt{preverjanje2.m} preverimo rezultate metod pri podatkih 
+$\rho(x)=4x^2(4-x)^2$ in $f(x)=xe^{-x}$ na intervalu $[am,bm]=[0,4]$ in $n+1$ vozlih,
+kjer je $n=1,2,3,5,10$. Dobljeni približek za integral primerjamo še z integralom, ki ga 
+izračuna vgrajena funkcija \texttt{integral} z absolutno toleranco $0$ in relativno toleranco $10^{-15}$.
+
+% Pri $n=1$ dobimo uteži:\\
+% \texttt{alfa1 = 68.266666666666637  68.266666666666666},\\
+% vozle:\\
+% \texttt{xn1 = 1.244071053981545  2.755928946018455},\\
+% izračunani približek za integral:\\
+% \texttt{I1 = 36.433308183703254}\\
+% in absolutno razliko med rezultatom vgrajene metode in izračunanim rezultatom:\\
+% \texttt{0.801653960971116}\\
+
+% Pri $n=2$ dobimo uteži:\\
+% \texttt{alfa2 = 29.257142857142817  78.019047619047655  29.257142857142849},\\
+% vozle:\\
+% \texttt{xn2 = 0.845299461620748  2.000000000000000  3.154700538379251},\\
+% izračunani približek za integral:\\
+% \texttt{I3 = 35.674279786085776}\\
+% in absolutno razliko med rezultatom vgrajene metode in izračunanim rezultatom:\\
+% \texttt{0.042625563353639}\\
+
+% Pri $n=3$ dobimo uteži:\\
+% \texttt{alfa3 = 13.018809202969898  55.247857463696768  55.247857463696768  13.018809202969869},\\
+% vozle:\\
+% \texttt{xn3 = 0.610506818786269  1.498874385828537  2.501125614171463  3.389493181213732},\\
+% izračunani približek za integral:\\
+% \texttt{I3 = 35.632650114524914}\\
+% in absolutno razliko med rezultatom vgrajene metode in izračunanim rezultatom:\\
+% \texttt{0.000995891792776}\\
+
+% Pri $n=5$ dobimo uteži:\\
+%\texttt{alfa5 = 3.158103888199260  20.696558213983682  44.412004564483716  44.412004564483659}\\  
+%\texttt{20.696558213983700 3.158103888199259},\\
+% vozle:\\
+%\texttt{xn5 = 0.360308009073026  0.918790725225282  1.622645155018428  2.377354844981572}\\  
+%\texttt{3.081209274774718  3.639691990926975},\\
+% izračunani približek za integral:\\
+% \texttt{I5 = 35.631654340999035}\\
+% in absolutno razliko med rezultatom vgrajene metode in izračunanim rezultatom:\\
+% \texttt{0.000000118266897}\\
+
+% Pri $n=10$ dobimo uteži:\\
+% %\texttt{alfa10 = 0.230464731154313   2.115814079225607   7.707457785521400  16.972012044839509}\\  
+% %\texttt{26.192248625741296  30.097338800369062  26.192248625741186  16.972012044839584}\\   
+% %\texttt{7.707457785521364   2.115814079225610  0.230464731154316},\\
+% vozle:\\
+% %\texttt{xn10 = 0.143967099141640  0.378907566714977  0.700988921701185  1.093038557364620}\\  
+% %\texttt{1.533960995508908  1.999999999999999  2.466039004491092  2.906961442635380}\\  
+% %\texttt{3.299011078298816  3.621092433285024  3.856032900858359},\\
+% izračunani približek za integral:\\
+% \texttt{I10 = 35.631654222732124}\\
+% in absolutno razliko med rezultatom vgrajene metode in izračunanim rezultatom:\\
+% \texttt{0.000000000000014}\\
+
+
+
+\end{document}

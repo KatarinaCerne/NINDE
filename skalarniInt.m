@@ -9,6 +9,6 @@ function skal = skalarniInt(g,h,ro,a,b)
 %skal ... vrednost skalarnega produkta
 
 p = @(t) g(t).*h(t).*ro(t);
-skal = integral(p,a,b);
+skal = integral(p,a,b,'AbsTol',0,'RelTol',10^(-15));
 
 end
