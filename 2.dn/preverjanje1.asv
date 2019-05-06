@@ -22,13 +22,11 @@ Y2(30/h+1)
 st_iteracij = (b-a)/h;
 X = linspace(a,b,st_iteracij+1);
 st_iteracij1 = (b-a)/h*2;
-X1 = linspace(a,b,st_iteracij1+1);
+X1 = linspace(a,b,st_iteracij+1);
 
 plot(X,Y)
 hold on
 plot(X1,Y1)
 hold on
 plot(X,Y2)
-hold on
-plot(t,y)
 hold off
