@@ -1,0 +1,11 @@
+%tspan=0:0.001:10;
+tspan=[0,10];
+Yzero=[3,0];
+[t,Y]=ode45(@fox1,tspan,Yzero);
+r = [sqrt(1+t).*cos(t);sqrt(1+t).*sin(t)];
+R = r(t);
+plot(Y(:,1),Y(:,2))
+hold on 
+plot(R(:,1),R(:,2))
+hold off
+

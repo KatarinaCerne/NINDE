@@ -1,0 +1,10 @@
+tspan=[0,3];
+tspan2=0:4
+yzero=1;
+[t,y]=ode45(@myf,tspan,yzero);
+plot(t,y,'*--')
+xlabel t, ylabel y(t)
+
+function yprime = myf(t,y)
+yprime=-y-5*exp(-t)*sin(5*t);
+end

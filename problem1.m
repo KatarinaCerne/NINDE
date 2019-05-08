@@ -1,0 +1,8 @@
+tspan=[0,3]; %matlab se odloèi za delilne toèke
+tspan2=0:4; %rešitev se poraèuna v toèkah 0,1,2,3,4
+tspan3=[0,-0.5,-1]; %lahko gremo nazaj v èasu
+yzero=1;
+[t,y]=ode45(@myf,tspan2,yzero);
+plot(t,y,'*--')
+xlabel t, ylabel y(t)
+
