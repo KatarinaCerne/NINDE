@@ -1,9 +1,14 @@
 function res = BDF(fun, a, b, y0, h)
 %funkcija izraèuna rešitev enaèbe y'=fun(x,y) z implicitno 4-èlensko BDF metodo
+
+%Vhod:
 %fun ... funkcija v problemu y'(x)=fun(x,y(x))
 %a, b ... meji intervala, na katerem se nahajajo delilne toèke x_i
 %y0 ... zaèetni približek
 %h ... korak iteracije
+
+%Izhod:
+%res ... vektor, ki vsebuje približke za y(x_i) pri delilnih toèkah x_i
 
 st_iteracij = (b-a)/h;
 X = linspace(a,b,st_iteracij+1); %vrstica, ki vsebuje x_i
