@@ -26,7 +26,7 @@ for i=5:st_iteracij+1
     zdajsnji=1/pomKoef1*(h*fun(X(i),y_priblizek)-pomKoef2);
     while abs(zdajsnji-prejsnji)>10^(-6) %delamo iteracijo, dokler nista približka dovolj blizu skupaj
         prejsnji = zdajsnji;
-        zdajsnji = 1/pomKoef1*(h*fun(X(i),y_priblizek)-pomKoef2);
+        zdajsnji = 1/pomKoef1*(h*fun(X(i),prejsnji)-pomKoef2);
     end
    Y(i)=zdajsnji; 
         
