@@ -12,9 +12,11 @@ Y(1)=y0;
 
 for i=2:st_iteracij+1
     y_priblizek = Y(i-1)+h*fun(X(i-1),Y(i-1)); %zaèetni približek za Y(i) izraèunamo z eksplicitno metodo
-    fun_y = @(t) t -h*fun(X(i),t)-Y(i-1); %enaèbo za implicitno eulerjevo metodo zapišemo kot funkcijo
-    %v odvisnosti od y_n
-    Y(i)=fsolve(fun_y,y_priblizek); %   
+    
+    
+%     fun_y = @(t) t -h*fun(X(i),t)-Y(i-1); %enaèbo za implicitno eulerjevo metodo zapišemo kot funkcijo
+%     %v odvisnosti od y_i
+%     Y(i)=fsolve(fun_y,y_priblizek); %raèunamo nelinearno enaèbo, da dobimo y_i   
 end
 
 

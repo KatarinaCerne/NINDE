@@ -5,4 +5,6 @@ function res = BDF(fun, a, b, y0, h)
 %y0 ... zaèetni približek
 %h ... korak iteracije
 
+
+
 end
