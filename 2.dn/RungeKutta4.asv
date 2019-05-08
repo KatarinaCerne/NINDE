@@ -14,7 +14,7 @@ for i=2:st_iteracij+1
    k1 = fun(X(i-1),Y(i-1));
    k2 = fun(X(i-1)+h/2,Y(i-1)+h*k1/2);
    k3 = fun(X(i-1)+h/2,Y(i-1)+h*k2/2);
-   k4 = fun(X(i-1)+h,Y(i-1)+h*k3);
+   k4 = fun(X(i-1)+h,Y(i-1)+hk3);
    
    Y(i)=Y(i-1)+h/6*(k1+2*k2+2*k3+k4);
 end

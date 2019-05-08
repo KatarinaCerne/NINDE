@@ -5,14 +5,14 @@ function res = BDF(fun, a, b, y0, h)
 %y0 ... zaèetni približek
 %h ... korak iteracije
 
-st_iteracij = (b-a)/h;
+st_iteracij = (b-a)/h*2;
 X = linspace(a,b,st_iteracij+1); %vrstica, ki vsebuje x_i
 Y = zeros(1,st_iteracij+1); %vrstica, ki vsebuje y_i
 Y(1)=y0;
 zacPriblizki = RungeKutta4(fun,a,b,y0,h);
 Y(2:4)=zacPriblizki(2:4); %to so y1,y2,y3
 
-for i=5:st_iteracij+1
+for i=5:st_iteracij
    pomKoef1 = 1+1/2+1/3+1/4;
    pomKoef2 = 0;
    for j=1:4
@@ -26,11 +26,12 @@ for i=5:st_iteracij+1
     zdajsnji=1/pomKoef1*(h*fun(X(i),y_priblizek)-pomKoef2);
     while abs(zdajsnji-prejsnji)>10^(-6) %delamo iteracijo, dokler nista približka dovolj blizu skupaj
         prejsnji = zdajsnji;
-        zdajsnji = 1/pomKoef1*(h*fun(X(i),y_priblizek)-pomKoef2);
+        zdajsnji = 
     end
    Y(i)=zdajsnji; 
-        
+    
+    
 end
-res = Y;
+
 
 end
