@@ -22,7 +22,7 @@ for i=5:st_iteracij+1
    pomKoef2 = 0;
    for j=1:4
        for jj=1:j
-           pomKoef2 = pomKoef2 + 1/j*(-1)^(jj)*nchoosek(j,jj)*Y(i-jj);
+           pomKoef2 = pomKoef2 + 1/j*(-1)^(jj)*nchoosek(j,jj)*Y(i-jj+1); %Y(i-jj)??
        end
    end
    

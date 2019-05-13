@@ -20,7 +20,7 @@ Y(1,:)=y0; %vrstica
 zacPriblizki = RungeKutta4(fun,a,b,y0,h);
 Y(2:4,:)=zacPriblizki(2:4,:); %to so y1,y2,y3
 
-for i=5:18
+for i=5:st_iteracij+1
    Yp = Y(i-4,:)+h./3.*(8*fun(X(i-1),Y(i-1,:))-4*fun(X(i-2),Y(i-2,:))+8*fun(X(i-3),Y(i-3,:))); %prediktor
    Y(i,:) = Y(i-2,:)+h./3.*(fun(X(i),Yp)+4*fun(X(i-1),Y(i-1,:))+fun(X(i-2),Y(i-2,:))); %korektor
 end
