@@ -7,14 +7,20 @@ h2=1/20;
 h3=1/15;
 h4=1/10;
 
-Y=BDF(fun1,a1,b1,y01,h1);
+Y1=BDF(fun1,a1,b1,y01,h1);
+Y2=BDF(fun1,a1,b1,y01,h2);
+Y3=BDF(fun1,a1,b1,y01,h3);
+Y4=BDF(fun1,a1,b1,y01,h4);
+
 tocnar = @(x) 2+exp(-20.*x);
 
 st_iteracij1 = (b1-a1)/h1;
 X = linspace(a1,b1,st_iteracij1+1);
 Ytocna = tocnar(X);
 rk4 = RungeKutta4(fun1,a1,b1,y01,h1);
-max(abs(Y-Ytocna))
+maxnapaka=max(abs(Y-Ytocna));
 
 [t,y] = ode45(fun1,a1:h1:b1,y01);
-max(abs(y-Y'))
+max(abs(y-Y'));
+
+
