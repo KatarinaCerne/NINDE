@@ -1,0 +1,128 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[margin=0.8in]{geometry}
+\usepackage[slovene]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{eurosym}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amsthm}
+%\usepackage{mathpartir}
+%\usepackage{stmaryrd}
+%\usepackage{newtxmath}
+%\usepackage{ifthen}
+\usepackage{xcolor}
+%\usepackage{epigraph}
+%\usepackage{tikz-cd}
+%\usepackage{float}
+%\usepackage{framed}
+%\usepackage{caption}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+
+
+\newcommand{\todo}[1]{{\color{red}{#1}}}
+
+\begin{document}
+\title{2. DOMAČA NALOGA}
+\author{Katarina Černe, 27172036}
+\maketitle
+
+\section*{1.\ naloga}
+
+Implementacija 1.\ naloge se nahaja v datotekah \texttt{EulerImplicitna.m}, \texttt{EulerIzboljsana.m} in \texttt{Heunova.m}, rezultati pa se preverijo v datoteki \texttt{preverjanje1.m}.
+Implementiramo tri različne Eulerjeve metode za reševanje robnega problema oblike 
+\(\frac{dy}{dx}=fun(x,y)\), kjer je \(x\in [a,b]\), podan imamo še \(y(a)\) in korak \(h\).
+
+V datoteki \texttt{EulerImplicitna.m} implementiramo implicitno Eulerjevo metodo.
+Interval \([a,b]\) razdelimo na \(n=\frac{b-a}{h}\) delov z delilnimi
+točkami \(\{x_i\}_{i=0}^{n}\), \(x_i=a+i\cdot h\). Približke \(y_i\approx y(x_i)\)
+izračunamo na naslednji način: 
+\[y_i=y_{i-1}+h\cdot fun(x_i,y_i).\]
+Formula je implicitna, zato moramo $y_i$ računati s pomočjo navadne
+iteracije. Začetni približek za $y_i$, ki ga označimo z $y_i^{(0)}$,
+izračunamo s pomočjo eksplicitne Eulerjeve metode:
+$$y_i=y_{i-1}+h\cdot fun(x_{i-1},y_{i-1}).$$
+Nadaljujemo z računanjem približkov $y_i^{(k)}$, $k=1,2,\ldots$
+na naslednji način:
+$$y_i^{(k)}=y_{i-1}+h\cdot fun(x_i,y_i^{(k-1)})$$
+in za končni približek vzamemo tisti $y_i^{(k)}$, za katerega je
+razlika $y_i^{(k)}-y_i^{(k-1)}$ manjša od neke tolerance, v našem 
+primeru za toleranco vzamemo kar $10^{-6}$.
+
+V datoteki \texttt{EulerIzboljsana.m} implementiramo izboljšano
+Eulerjevo metodo. Interval $[a,b]$ razdelimo na $n=\frac{b-a}{2h}$
+delov z delilnimi točkami $\{x_{\frac{i}{2}}\}_{i=0}^n$,
+$x_{\frac{i}{2}}=a+\frac{i}{2}h$.  Približke \(y_i\approx y(x_i)\)
+izračunamo na naslednji način:
+$$y_{i-\frac{1}{2}}=y_{i-1}+\frac{h}{2}fun(x_{i-1},y_{i-1})\textrm{, kjer }
+i=1,2,\ldots \textrm{ in }$$
+$$y_i = y_{i-1} + h \cdot fun(x_{i-\frac{1}{2}},y_{i-\frac{1}{2}})\textrm{, kjer }
+i=1,2,\ldots$$
+
+V datoteki \texttt{Heunova.m} implementiramo Heunovo metodo.
+Interval \([a,b]\) razdelimo na \(n=\frac{b-a}{h}\) delov z delilnimi
+točkami \(\{x_i\}_{i=0}^{n}\), \(x_i=a+i\cdot h\).
+Butcherjeva shema za Heunovo metodo je oblike
+\begin{center}
+\begin{tabular}{c|cc}
+0 & 0 &  \\
+$\frac{2}{3}$ & $\frac{2}{3}$ & 0 \\ \hline
+& $\frac{1}{4}$ & $\frac{3}{4}$ 
+\end{tabular}
+\end{center} 
+Približke \(y_i\approx y(x_i)\) izračunamo na naslednji način:
+$$k_1=fun(x_{i-1},y{i-1})$$
+$$k_2=fun(x_{i-1}+\frac{2}{3}h,y_{i-1}+\frac{2}{3}h\cdot k_1)$$
+$$y_i=y_{i-1}+h(\frac{1}{4}k_1+\frac{3}{4}k_2).$$
+
+\todo{rezultati}
+
+\section*{2.\ naloga}
+
+Implementacija 2.\ naloge se nahaja v datotekah 
+\texttt{BDF.m} in \texttt{RungeKutta4.m}, rezultati pa se preverijo 
+v datoteki \texttt{preverjanje2.m}.
+
+V datoteki \texttt{BDF.m} implementiramo implicitno 4-člensko BDF
+metodo za robnega problema oblike 
+\(\frac{dy}{dx}=fun(x,y)\), kjer je \(x\in [a,b]\), podan imamo še \(y(a)\) in korak \(h\).
+
+Približke $y_n$ pri tej metodi računamo po formuli 
+$$\sum_{i=1}^4 \frac{1}{i} \triangledown^i y_n = fun(x_n,y_n).$$
+Tu se $\triangledown^i y_n$ izraža kot
+$$\triangledown^i y_n = \sum_{j=0}^i (-1)^j {i\choose j} y_{n-j},$$
+torej lahko izrazimo 
+$$y_n = \frac{1}{\sum_{i=0}^4 \frac{1}{i}}(h\cdot fun(x_n,y_n)-
+\sum_{i=1}^4 \frac{1}{i}\sum_{j=1}^i (-1)^j{i \choose j}y_{n-j}).$$
+Metoda je implicitna, zato $y_n$ računamo z iteracijo, kot pri 1. nalogi
+pri implicitni Eulerjevi metodi. Začetni približek $y_n^(0)$ izračunamo
+z Runge-Kutta metodo reda 4, nato pa računamo
+$$y_n^(k) = \frac{1}{\sum_{i=0}^4 \frac{1}{i}}(h\cdot fun(x_n,y_n^(k-1))-
+\sum_{i=1}^4 \frac{1}{i}\sum_{j=1}^i (-1)^j{i \choose j}y_{n-j}),$$
+dokler ni razlika $y_i^{(k)}-y_i^{(k-1)}$ manjša od $10^{-6}$.
+Pri implicitni 4-stopenjski BDF metodi moramo najprej določiti 
+$y_i$ za $i=0,1,2,3$. Poznamo že $y_0$, $y_1, y_2$ in $y_3$ pa določimo
+z Runge-Kutta metodo reda 4, ki ima naslednjo Butcherjevo shemo:
+\begin{center}
+    \begin{tabular}{c|cccc}
+     0&  &  &  &  \\
+     $\frac{1}{2}$ & $\frac{1}{2}$ &  &  &  \\
+     $\frac{1}{2}$ & 0 & $\frac{1}{2}$ &  &  \\
+     1 & 0 & 0 & 1 &  \\ \hline
+     $\frac{1}{6}$ & $\frac{2}{6}$ & $\frac{2}{6}$ & $\frac{1}{6}$ & 
+    \end{tabular}
+\end{center}
+To metodo implementiramo v datoteki \texttt{RungeKutta4.m}.
+\todo{rezultati}
+
+\section*{3.\ naloga}
+
+Implementacija 3.\ naloge se nahaja v datotekah \texttt{MilneSistem.m}
+in \texttt{RungeKutta4.m}. 
+
+\end{document}

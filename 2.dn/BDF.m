@@ -27,13 +27,18 @@ for i=5:st_iteracij+1
    end
    
     y_priblizek = zacPriblizki(i);
-    prejsnji=y_priblizek;
-    zdajsnji=1/pomKoef1*(h*fun(X(i),y_priblizek)-pomKoef2);
-    while abs(zdajsnji-prejsnji)>10^(-6) %delamo iteracijo, dokler nista približka dovolj blizu skupaj
-        prejsnji = zdajsnji;
-        zdajsnji = 1/pomKoef1*(h*fun(X(i),prejsnji)-pomKoef2);
-    end
-   Y(i)=zdajsnji; 
+    
+    fun_y = @(t) t-1/pomKoef1*(h*fun(X(i),t)-pomKoef2); %enaèbo za implicitno BDF metodo zapišemo kot funkcijo
+    %v odvisnosti od y_i
+    Y(i)=fzero(fun_y,y_priblizek); %raèunamo nelinearno enaèbo, da dobimo y_i 
+    
+%     prejsnji=y_priblizek;
+%     zdajsnji=1/pomKoef1*(h*fun(X(i),y_priblizek)-pomKoef2);
+%     while abs(zdajsnji-prejsnji)>10^(-6) %delamo iteracijo, dokler nista približka dovolj blizu skupaj
+%         prejsnji = zdajsnji;
+%         zdajsnji = 1/pomKoef1*(h*fun(X(i),prejsnji)-pomKoef2);
+%     end
+%    Y(i)=zdajsnji; 
         
 end
 res = Y;

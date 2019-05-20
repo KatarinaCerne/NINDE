@@ -17,16 +17,19 @@ Y(1)=y0;
 
 for i=2:st_iteracij+1
     y_priblizek = Y(i-1)+h*fun(X(i-1),Y(i-1)); %zaèetni približek za Y(i) izraèunamo z eksplicitno metodo
-    prejsnji=y_priblizek;
-    zdajsnji=Y(i-1)+h*fun(X(i),y_priblizek);
-    while abs(zdajsnji-prejsnji)>10^(-6) %delamo iteracijo, dokler nista približka dovolj blizu skupaj
-        prejsnji = zdajsnji;
-        zdajsnji = Y(i-1) +h*fun(X(i),prejsnji);
-    end
-   Y(i)=zdajsnji; 
-%     fun_y = @(t) t -h*fun(X(i),t)-Y(i-1); %enaèbo za implicitno eulerjevo metodo zapišemo kot funkcijo
-%     %v odvisnosti od y_i
-%     Y(i)=fsolve(fun_y,y_priblizek); %raèunamo nelinearno enaèbo, da dobimo y_i   
+    
+    fun_y = @(t) t -h*fun(X(i),t)-Y(i-1); %enaèbo za implicitno eulerjevo metodo zapišemo kot funkcijo
+    %v odvisnosti od y_i
+    Y(i)=fzero(fun_y,y_priblizek); %raèunamo nelinearno enaèbo, da dobimo y_i 
+    
+%     prejsnji=y_priblizek;
+%     zdajsnji=Y(i-1)+h*fun(X(i),y_priblizek);
+%     while abs(zdajsnji-prejsnji)>10^(-6) %delamo iteracijo, dokler nista približka dovolj blizu skupaj
+%         prejsnji = zdajsnji;
+%         zdajsnji = Y(i-1) +h*fun(X(i),prejsnji);
+%     end
+%    Y(i)=zdajsnji; 
+  
 end
 
 

@@ -15,12 +15,12 @@ Y4=BDF(fun1,a1,b1,y01,h4);
 tocnar = @(x) 2+exp(-20.*x);
 
 st_iteracij1 = (b1-a1)/h1;
-X = linspace(a1,b1,st_iteracij1+1);
-Ytocna = tocnar(X);
+X1 = linspace(a1,b1,st_iteracij1+1);
+Ytocna = tocnar(X1);
 rk4 = RungeKutta4(fun1,a1,b1,y01,h1);
-maxnapaka=max(abs(Y-Ytocna));
+maxnapaka=max(abs(Y1-Ytocna));
 
 [t,y] = ode45(fun1,a1:h1:b1,y01);
-max(abs(y-Y'));
+%max(abs(y-Y'));
 
 
