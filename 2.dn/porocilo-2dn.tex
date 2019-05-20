@@ -108,8 +108,8 @@ Dobimo naslednje rezultate:
 \section*{2.\ naloga}
 
 Implementacija 2.\ naloge se nahaja v datotekah 
-\texttt{BDF.m} in \texttt{RungeKutta4.m}, rezultati pa se preverijo 
-v datoteki \texttt{preverjanje2.m}.
+\texttt{BDF.m}, \texttt{RungeKutta4.m} in \texttt{EulerEksplicitna.m}, 
+rezultati pa se preverijo v datoteki \texttt{preverjanje2.m}.
 
 V datoteki \texttt{BDF.m} implementiramo implicitno 4-člensko BDF
 metodo za robnega problema oblike 
@@ -142,6 +142,10 @@ z Runge-Kutta metodo reda 4, ki ima naslednjo Butcherjevo shemo:
     \end{tabular}
 \end{center}
 To metodo implementiramo v datoteki \texttt{RungeKutta4.m}.
+
+V datoteki \texttt{EulerEksplicitna.m} implementiramo eksplicitno Eulerjevo
+metodo, pri kateri računamo
+\[y_i=y_{i-1}+h\cdot fun(x_{i-1},y_{i-1}).\]
 
 Pri koraku $h=\frac{1}{25}$ dobimo z BDF metodo $y(b)=2.000000000000326$,
 pri koraku $h=\frac{1}{20}$ dobimo $y(b)=2.000000000309457$, pri $h=\frac{1}{15}$
