@@ -44,15 +44,18 @@ točkami \(\{x_i\}_{i=0}^{n}\), \(x_i=a+i\cdot h\). Približke \(y_i\approx y(x_
 izračunamo na naslednji način: 
 \[y_i=y_{i-1}+h\cdot fun(x_i,y_i).\]
 Formula je implicitna, zato moramo $y_i$ računati s pomočjo navadne
-iteracije. Začetni približek za $y_i$, ki ga označimo z $y_i^{(0)}$,
+iteracije, ali pa za reševanje uporabimo kar vgrajeno funkcijo \texttt{fzero},
+pri čemer računamo ničle funkcije 
+$$g(t)=t-y_{i-1}-h\cdot fun(x_i,t)$$
+Pri tem rabimo še začetni približek za $y_i$, ki ga
 izračunamo s pomočjo eksplicitne Eulerjeve metode:
 $$y_i=y_{i-1}+h\cdot fun(x_{i-1},y_{i-1}).$$
-Nadaljujemo z računanjem približkov $y_i^{(k)}$, $k=1,2,\ldots$
-na naslednji način:
-$$y_i^{(k)}=y_{i-1}+h\cdot fun(x_i,y_i^{(k-1)})$$
-in za končni približek vzamemo tisti $y_i^{(k)}$, za katerega je
-razlika $y_i^{(k)}-y_i^{(k-1)}$ manjša od neke tolerance, v našem 
-primeru za toleranco vzamemo kar $10^{-6}$.
+%Nadaljujemo z računanjem približkov $y_i^{(k)}$, $k=1,2,\ldots$
+%na naslednji način:
+%$$y_i^{(k)}=y_{i-1}+h\cdot fun(x_i,y_i^{(k-1)})$$
+%in za končni približek vzamemo tisti $y_i^{(k)}$, za katerega je
+%razlika $y_i^{(k)}-y_i^{(k-1)}$ manjša od neke tolerance, v našem 
+%primeru za toleranco vzamemo kar $10^{-6}$.
 
 V datoteki \texttt{EulerIzboljsana.m} implementiramo izboljšano
 Eulerjevo metodo. Interval $[a,b]$ razdelimo na $n=\frac{b-a}{2h}$
@@ -80,7 +83,27 @@ $$k_1=fun(x_{i-1},y{i-1})$$
 $$k_2=fun(x_{i-1}+\frac{2}{3}h,y_{i-1}+\frac{2}{3}h\cdot k_1)$$
 $$y_i=y_{i-1}+h(\frac{1}{4}k_1+\frac{3}{4}k_2).$$
 
-\todo{rezultati}
+Dobimo naslednje rezultate:
+Število okuženih po 10 dneh:
+\begin{itemize}
+    \item z implicitno Eulerjevo metodo: $0.050172760083025 \cdot 10^4$
+    \item z izboljšano Eulerjevo metodo: $0.049524536918739 \cdot 10^4$
+    \item s Heunovo metodo: $0.049524536867780 \cdot 10^4$
+\end{itemize}
+
+Število okuženih po 20 dneh:
+\begin{itemize}
+    \item z implicitno Eulerjevo metodo: $0.251678987879975 \cdot 10^4$
+    \item z izboljšano Eulerjevo metodo: $0.245220099105067 \cdot 10^4$
+    \item s Heunovo metodo: $0.245220097603792 \cdot 10^4$
+\end{itemize}
+
+Število okuženih po 30 dneh:
+\begin{itemize}
+    \item z implicitno Eulerjevo metodo: $1.261187470506422 \cdot 10^4$
+    \item z izboljšano Eulerjevo metodo: $1.213031743398884 \cdot 10^4$
+    \item s Heunovo metodo: $1.213031705461628 \cdot 10^4$
+\end{itemize}
 
 \section*{2.\ naloga}
 
@@ -99,12 +122,13 @@ $$\triangledown^i y_n = \sum_{j=0}^i (-1)^j {i\choose j} y_{n-j},$$
 torej lahko izrazimo 
 $$y_n = \frac{1}{\sum_{i=0}^4 \frac{1}{i}}(h\cdot fun(x_n,y_n)-
 \sum_{i=1}^4 \frac{1}{i}\sum_{j=1}^i (-1)^j{i \choose j}y_{n-j}).$$
-Metoda je implicitna, zato $y_n$ računamo z iteracijo, kot pri 1. nalogi
-pri implicitni Eulerjevi metodi. Začetni približek $y_n^(0)$ izračunamo
-z Runge-Kutta metodo reda 4, nato pa računamo
-$$y_n^(k) = \frac{1}{\sum_{i=0}^4 \frac{1}{i}}(h\cdot fun(x_n,y_n^(k-1))-
+Metoda je implicitna, zato $y_n$ računamo s pomočjo funkcije \texttt{fzero}, 
+kot pri 1. nalogi
+pri implicitni Eulerjevi metodi. Začetni približek za $y_n$ izračunamo
+z Runge-Kutta metodo reda 4, nato pa računamo ničle funkcije
+$$g(t) =t- \frac{1}{\sum_{i=0}^4 \frac{1}{i}}(h\cdot fun(x_n,t)-
 \sum_{i=1}^4 \frac{1}{i}\sum_{j=1}^i (-1)^j{i \choose j}y_{n-j}),$$
-dokler ni razlika $y_i^{(k)}-y_i^{(k-1)}$ manjša od $10^{-6}$.
+%dokler ni razlika $y_i^{(k)}-y_i^{(k-1)}$ manjša od $10^{-6}$.
 Pri implicitni 4-stopenjski BDF metodi moramo najprej določiti 
 $y_i$ za $i=0,1,2,3$. Poznamo že $y_0$, $y_1, y_2$ in $y_3$ pa določimo
 z Runge-Kutta metodo reda 4, ki ima naslednjo Butcherjevo shemo:
@@ -118,11 +142,28 @@ z Runge-Kutta metodo reda 4, ki ima naslednjo Butcherjevo shemo:
     \end{tabular}
 \end{center}
 To metodo implementiramo v datoteki \texttt{RungeKutta4.m}.
-\todo{rezultati}
+
+Pri koraku $h=\frac{1}{25}$ dobimo z BDF metodo $y(b)=2.000000000000326$,
+pri koraku $h=\frac{1}{20}$ dobimo $y(b)=2.000000000309457$, pri $h=\frac{1}{15}$
+dobimo $y(b)=1.999999909530579$ in pri $h=1/10$ dobimo $y(b)=1.999997577067534$. 
+Pri vseh štirih $h$-jih se dobljene rešitve za večje $x_i$ gibljejo okrog $2$,
+kar se precej približa točni rešitvi, ki konvergira proti $2$ in za katero velja
+$y(b)=2$.
+Po drugi strani pa z eksplicitno Eulerjevo metodo dobimo $y(b)=2$ za $h=\frac{1}{25}$
+in $h=\frac{1}{20}$ in $y(b)=2.000000000000005$ za $h=\frac{1}{15}$. V teh treh
+primerih se rešitve za velike $x_i$ gibajo okrog $2$. Za $h=\frac{1}{10}$ pa 
+dobimo rešitev, ki oscilira med $3$ in $1$, za sode $i$ je $y_i=3$, za lihe
+$i$ je $y_i=1$. Rešitev se torej v tem primeru ne približa točni rešitvi, 
+torej ta metoda za ta primer ni stabilna.
 
 \section*{3.\ naloga}
 
 Implementacija 3.\ naloge se nahaja v datotekah \texttt{MilneSistem.m}
-in \texttt{RungeKutta4.m}. 
+in \texttt{RungeKutta4.m}. V datoteki \texttt{primer3.m} se nahaja sistem 
+diferencialnih enačb, na katerega prevedemo dano diferencialno enačbo drugega reda,
+v datoteki \texttt{preverjanje3.m} pa preverimo rešitve.
+
+Pri $h=0.1$ dobimo rešitev $y(b)=-0.441424015188975$, pri $h=0.05$ pa 
+$y(b)=-0.422277970368344$.
 
 \end{document}
