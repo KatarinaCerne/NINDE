@@ -16,9 +16,13 @@ Y = zeros(1,st_iteracij+1); %vrstica, ki vsebuje y_i
 Y(1)=y0;
 
 for i=2:st_iteracij+1
+%    k1=fun(X(i-1),Y(i-1));
+%    k2=fun(X(i-1)+2/3*h,Y(i-1)+2/3*h*k1);
+%    Y(i)=Y(i-1)+h*(1/4*k1+3/4*k2);
+   
    k1=fun(X(i-1),Y(i-1));
-   k2=fun(X(i-1)+2/3*h,Y(i-1)+2/3*h*k1);
-   Y(i)=Y(i-1)+h*(1/4*k1+3/4*k2);
+   k2=fun(X(i-1)+h,Y(i-1)+h*k1);
+   Y(i)=Y(i-1)+h*(1/2*k1+1/2*k2);
 end
 
 end
