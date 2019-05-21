@@ -12,17 +12,18 @@ function Y = Heunova(fun, a, b, y0, h)
 
 st_iteracij = (b-a)/h;
 X = linspace(a,b,st_iteracij+1); %vrstica, ki vsebuje x_i
-Y = zeros(1,st_iteracij+1); %vrstica, ki vsebuje y_i
-Y(1)=y0;
+vels = max(size(y0));%velikost sistema
+Y = zeros(st_iteracij+1,vels); %vels, ki vsebuje y_i
+Y(1,:)=y0;
 
 for i=2:st_iteracij+1
 %    k1=fun(X(i-1),Y(i-1));
 %    k2=fun(X(i-1)+2/3*h,Y(i-1)+2/3*h*k1);
 %    Y(i)=Y(i-1)+h*(1/4*k1+3/4*k2);
    
-   k1=fun(X(i-1),Y(i-1));
-   k2=fun(X(i-1)+h,Y(i-1)+h*k1);
-   Y(i)=Y(i-1)+h*(1/2*k1+1/2*k2);
+   k1=fun(X(i-1),Y(i-1,:));
+   k2=fun(X(i-1)+h,Y(i-1,:)+h.*k1);
+   Y(i,:)=Y(i-1,:)+h.*(1/2.*k1+1/2.*k2);
 end
 
 end

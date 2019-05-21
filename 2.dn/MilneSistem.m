@@ -15,8 +15,9 @@ function res = MilneSistem(fun, a, b, y0, h)
 
 st_iteracij = (b-a)/h;
 X = linspace(a,b,st_iteracij+1); %vrstica, ki vsebuje x_i
-Y = zeros(st_iteracij+1,2); %matrika, ki vsebuje y_i in y'_i v stolpcih
-Y(1,:)=y0; %vrstica
+vels = max(size(y0));%velikost sistema
+Y = zeros(st_iteracij+1,vels); %matrika, ki vsebuje y_i in y'_i v stolpcih
+Y(1,:)=y0; %to je vrstica
 zacPriblizki = RungeKutta4(fun,a,b,y0,h);
 Y(2:4,:)=zacPriblizki(2:4,:); %to so y1,y2,y3
 

@@ -12,10 +12,13 @@ function res = BDF(fun, a, b, y0, h)
 
 st_iteracij = (b-a)/h;
 X = linspace(a,b,st_iteracij+1); %vrstica, ki vsebuje x_i
-Y = zeros(1,st_iteracij+1); %vrstica, ki vsebuje y_i
-Y(1)=y0;
+vels = max(size(y0));%velikost sistema
+Y = zeros(st_iteracij+1, vels); %stolpec, ki vsebuje y_i
+Y(1,:)=y0;
 zacPriblizki = RungeKutta4(fun,a,b,y0,h);
-Y(2:4)=zacPriblizki(2:4); %to so y1,y2,y3
+size(zacPriblizki)
+size(Y)
+Y(2:4,:)=zacPriblizki(2:4,:); %to so y1,y2,y3
 
 for i=5:st_iteracij+1
    pomKoef1 = 1+1/2+1/3+1/4;
@@ -26,11 +29,12 @@ for i=5:st_iteracij+1
        end
    end
    
-    y_priblizek = zacPriblizki(i);
+    y_priblizek = zacPriblizki(i,:);
     
-    fun_y = @(t) t-1/pomKoef1*(h*fun(X(i),t)-pomKoef2); %enaèbo za implicitno BDF metodo zapišemo kot funkcijo
+    fun_y = @(t) t-1/pomKoef1.*(h.*fun(X(i),t)-pomKoef2); %enaèbo za implicitno BDF metodo zapišemo kot funkcijo
     %v odvisnosti od y_i
-    Y(i)=fzero(fun_y,y_priblizek); %raèunamo nelinearno enaèbo, da dobimo y_i 
+    Y(i)=fzero(fun_y,y_priblizek); %raèunamo nelinearno enaèbo, da dobimo y_i
+    %Y(i)=fsolve(fun_y,y_priblizek); %raèunamo nelinearno enaèbo, da dobimo y_i
     
 %     prejsnji=y_priblizek;
 %     zdajsnji=1/pomKoef1*(h*fun(X(i),y_priblizek)-pomKoef2);
